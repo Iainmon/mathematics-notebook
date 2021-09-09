@@ -1,4 +1,8 @@
 ARG BASE_CONTAINER=jupyter/scipy-notebook:lab-3.1.10
+ARG IHASKELL_CONTAINER=gibiansky/ihaskell:latest
+ARG IHASKELL_NB_CONTAINER=ghcr.io/jamesdbrock/ihaskell-notebook:master
+FROM $IHASKELL_CONTAINER
+FROM $IHASKELL_NB_CONTAINER
 FROM $BASE_CONTAINER
 
 ARG CONDA_ENV=base

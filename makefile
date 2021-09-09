@@ -14,7 +14,7 @@ help:
 
 build: DARGS?=
 build: ## Make the latest build of the image
-	$(DOCKER) build $(DARGS) --rm=false -t $(IMAGE):$(TAG) .
+	DOCKER_BUILDKIT=1 $(DOCKER) build $(DARGS) --rm=false -t $(IMAGE):$(TAG) .
 deploy: DARGS?=
 deploy: ## Make the latest build of the image
 	$(DOCKER) build $(DARGS) --rm --force-rm -t $(IMAGE):$(TAG) .
