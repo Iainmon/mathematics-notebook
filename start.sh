@@ -1,11 +1,13 @@
 #!/bin/bash
 
 # build command
-docker build --rm=false -t kobel/mathematics-notebook .
+# docker build --rm=false -t kobel/mathematics-notebook .
+
 # better caching?
-DOCKER_BUILDKIT=1 docker build --rm=false -t kobel/mathematics-notebook .
+DOCKER_BUILDKIT=1 docker build --rm=false -t kobel/mathematics-notebook:dev .
+
 # Remote building 
-DOCKER_BUILDKIT=1 docker build --rm --force-rm -t kobel/ihaskell-notebook .
+# DOCKER_BUILDKIT=1 docker build --rm --force-rm -t kobel/ihaskell-notebook .
 
 # run command
 docker run -it --rm \
@@ -15,8 +17,8 @@ docker run -it --rm \
      -e CHOWN_HOME=yes \
      -e NB_USER=kodel \
      -v /home/iainmoncrief/labfiles:/home/jovyan/work \
-     --name kobel_image_test \
-     kobel/mathematics-notebook \
+     --name kobel_mathematics_notebook \
+     kobel/mathematics-notebook:dev \
      jupyter lab \
      --NotebookApp.token=''\
      --ServerApp.token='' \

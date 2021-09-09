@@ -1,4 +1,4 @@
-.PHONY: help build dev test test-env
+.PHONY: help build dev
 
 # Docker image name and tag
 IMAGE:=kobel/mathematics-notebook
@@ -25,15 +25,9 @@ dev: PORT?=8888
 dev: ## Make a container from a tagged image image
 	$(DOCKER) run -it --rm -p $(PORT):8888 $(DARGS) $(REPO) $(ARGS)
 
-test: ## Make a test run against the latest image
-	pytest tests
-
-test-env: ## Make a test environment by installing test dependencies with pip
-	pip install -r requirements-test.txt
-
 .PHONY: up
 up: ## Launch JupyterLab with token=x
-	$(DOCKER) run --rm -p 8888:8888 --name ihaskell_notebook $(IMAGE):$(TAG) jupyter lab --LabApp.token=''
+	$(DOCKER) run --rm -p 8888:8888 --name kobel_mathematics_notebook $(IMAGE):$(TAG) jupyter lab --LabApp.token=''
 
 .PHONY: build-fast
 build-fast: DARGS?=
