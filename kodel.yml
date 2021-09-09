@@ -1,0 +1,13 @@
+name: base
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - mamba
+  - conda=4.10.1
+  - pip
+  - jupyterhub=1.4.1
+  - jupyterlab=3.0.16
+  - notebook=6.4.0
+  - ipywidgets
+prefix: /opt/conda
