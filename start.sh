@@ -9,7 +9,7 @@
 # Remote building 
 # DOCKER_BUILDKIT=1 docker build --rm --force-rm -t kobel/ihaskell-notebook .
 # DOCKER_BUILDKIT=1 docker build --rm --force-rm -t kobel/mathematics-notebook:dev .
-docker build --rm --force-rm -t kobel/mathematics-notebook:dev .
+# docker build --rm --force-rm -t kobel/mathematics-notebook:dev .
 
 # run command
 docker run --rm -it \

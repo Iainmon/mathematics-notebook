@@ -1,8 +1,5 @@
-ARG BASE_CONTAINER=jupyter/scipy-notebook:lab-3.1.10
-ARG IHASKELL_CONTAINER=gibiansky/ihaskell:latest
-ARG IHASKELL_NB_CONTAINER=ghcr.io/jamesdbrock/ihaskell-notebook:master
-FROM $IHASKELL_CONTAINER
-FROM $IHASKELL_NB_CONTAINER
+# ARG BASE_CONTAINER=jupyter/scipy-notebook:lab-3.1.10
+ARG BASE_CONTAINER=jupyter/all-spark-notebook:lab-3.1.10
 FROM $BASE_CONTAINER
 
 ARG CONDA_ENV=base
@@ -60,6 +57,7 @@ RUN $MAMBA_OR_CONDA install -c conda-forge conda-lock
 
 RUN $MAMBA_OR_CONDA create --yes -n $SAGE_CONDA_ENV -c conda-forge || echo "0"
 RUN $MAMBA_OR_CONDA install $CACHING_ARGS --yes -n $SAGE_CONDA_ENV -c conda-forge \
+    ipywidgets \ 
     sage=$SAGE_VERSION \
     python=$SAGE_PYTHON_VERSION || \
     echo "Something went wrong." && exit "0"
@@ -156,17 +154,17 @@ LABEL USER="root"
 USER $NB_UID
 LABEL USER=$NB_USER
 
-RUN $MAMBA_OR_CONDA install $CACHING_ARGS --yes -n $CONDA_ENV \
-# ihaskell-widgets needs ipywidgets
-    'ipywidgets' && \
-# ihaskell-hvega doesn't need an extension. https://github.com/jupyterlab/jupyter-renderers
-#    'jupyterlab-vega3' && \
-    conda clean --all -f -y && \
-    fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}"
+# RUN $MAMBA_OR_CONDA install $CACHING_ARGS --yes -n $CONDA_ENV \
+# # ihaskell-widgets needs ipywidgets
+#     'ipywidgets' && \
+# # ihaskell-hvega doesn't need an extension. https://github.com/jupyterlab/jupyter-renderers
+# #    'jupyterlab-vega3' && \
+#     conda clean --all -f -y && \
+#     fix-permissions "${CONDA_DIR}" && \
+#     fix-permissions "/home/${NB_USER}"
 
 RUN conda env export -n $CONDA_ENV --no-builds --file /home/$NB_USER/work/kodel_environment.yml && \
     conda env export -n $SAGE_CONDA_ENV --no-builds --file /home/$NB_USER/work/sage_environment.yml && \
-    conda-lock lock -f /home/$NB_USER/work/kodel_environment.yml -p linux-64 --filename-template "kodel-base-{platform}.lock" && \
-    conda-lock lock -f /home/$NB_USER/work/sage_environment.yml -p linux-64 --filename-template "kodel-sage-{platform}.lock"
+    conda-lock lock -f /home/$NB_USER/work/kodel_environment.yml -p linux-64 --filename-template "kodel-base-{platform}.lock"
+#    conda-lock lock -f /home/$NB_USER/work/sage_environment.yml -p linux-64 --filename-template "kodel-sage-{platform}.lock"
 
